@@ -1,35 +1,31 @@
+// src/main.ts
+import { setupEngine } from "./game/engine";
+import { createBall } from "./game/ball";
+import { levels, Level } from "./game/levels";
 import Matter from "matter-js";
 
-const { Engine, Render, Runner, Bodies, Composite } = Matter;
+const { Bodies, Composite } = Matter;
 
-// Create the engine and world
-const engine = Engine.create();
-const world = engine.world;
+// Setup the Matter.js engine and world
+const { engine, world } = setupEngine();
 
-// Set up the renderer and attach to the body
-const render = Render.create({
-  element: document.body,
-  canvas: document.getElementById("gameCanvas") as HTMLCanvasElement,
-  engine: engine,
-  options: {
-    width: 800,
-    height: 600,
-    wireframes: false, // Disable wireframe mode to make it look better
-  },
+// Load the first level (you can change this dynamically later)
+const currentLevel: Level = levels[0];
+
+// Create the ball at the level's defined position
+const ball = createBall(world, currentLevel.ballPosition);
+
+// Add obstacles for the level
+currentLevel.obstacles.forEach((obstacle) => {
+  Composite.add(world, obstacle);
 });
 
-// Run the renderer and runner
-Render.run(render);
-Runner.run(Runner.create(), engine);
-
-// Create the ball
-const ball = Bodies.circle(100, 100, 20, { restitution: 0.8 });
-
-// Add the ball to the world
-Composite.add(world, ball);
-
-// Create the ground (a static body)
-const ground = Bodies.rectangle(400, 580, 810, 60, { isStatic: true });
-
-// Add the ground to the world
-Composite.add(world, ground);
+// Add the goal area (this could be represented as a static body or other logic)
+const goalArea = Bodies.rectangle(
+  currentLevel.goalArea.x,
+  currentLevel.goalArea.y,
+  currentLevel.goalArea.width,
+  currentLevel.goalArea.height,
+  { isStatic: true, render: { fillStyle: "green" } } // Make it green for visibility
+);
+Composite.add(world, goalArea);
