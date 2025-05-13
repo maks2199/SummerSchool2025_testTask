@@ -9,6 +9,41 @@ export function setupPlacement(world: Matter.World, canvas: HTMLCanvasElement) {
   let previewBody: Matter.Body | null = null;
   const mouse = { x: 0, y: 0 };
 
+  const handleMouseMove = (event: MouseEvent) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = event.clientX - rect.left;
+    mouse.y = event.clientY - rect.top;
+
+    if (previewBody) {
+      Matter.Body.setPosition(previewBody, { x: mouse.x, y: mouse.y });
+    }
+  };
+
+  const handleClick = (event: MouseEvent) => {
+    if (!selectedType || remainingObjects <= 0) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    const placedBody = createPlaceable(selectedType, x, y);
+    Matter.Composite.add(world, placedBody);
+
+    remainingObjects--;
+    updateRemainingUI(remainingObjects);
+
+    if (remainingObjects === 0) {
+      selectedType = null;
+      if (previewBody) {
+        Matter.World.remove(world, previewBody);
+        previewBody = null;
+      }
+    }
+  };
+
+  canvas.addEventListener("mousemove", handleMouseMove);
+  canvas.addEventListener("click", handleClick);
+
   // UI hook to select which object to place
   (window as any).selectPlaceable = (type: PlaceableType) => {
     selectedType = type;
@@ -26,41 +61,19 @@ export function setupPlacement(world: Matter.World, canvas: HTMLCanvasElement) {
     }
   };
 
-  // Handle click placement on canvas
-  canvas.addEventListener("click", (event) => {
-    if (!selectedType || remainingObjects <= 0) return;
-
-    const rect = canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-
-    const body = createPlaceable(selectedType, x, y);
-    Matter.Composite.add(world, body);
-
-    remainingObjects--;
-    updateRemainingUI(remainingObjects);
-
-    if (remainingObjects === 0) {
-      selectedType = null;
-      if (previewBody) {
-        Matter.World.remove(world, previewBody);
-        previewBody = null;
-      }
-    }
-  });
-
-  // Update mouse position and preview object
-  canvas.addEventListener("mousemove", (event) => {
-    const rect = canvas.getBoundingClientRect();
-    mouse.x = event.clientX - rect.left;
-    mouse.y = event.clientY - rect.top;
-
-    if (previewBody) {
-      Matter.Body.setPosition(previewBody, { x: mouse.x, y: mouse.y });
-    }
-  });
-
   updateRemainingUI(remainingObjects);
+
+  // Return cleanup function
+  return () => {
+    canvas.removeEventListener("mousemove", handleMouseMove);
+    canvas.removeEventListener("click", handleClick);
+    if (previewBody) {
+      Matter.World.remove(world, previewBody);
+      previewBody = null;
+    }
+    selectedType = null;
+    (window as any).selectPlaceable = () => {};
+  };
 }
 
 function updateRemainingUI(count: number) {

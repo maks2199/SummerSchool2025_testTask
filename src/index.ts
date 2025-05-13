@@ -8,7 +8,7 @@ import Matter from "matter-js";
 const { Bodies, Composite } = Matter;
 
 // Setup the Matter.js engine and world
-const { engine, world, render } = setupEngine();
+const { engine, world, render, start } = setupEngine();
 
 // Load the first level (you can change this dynamically later)
 const currentLevel: Level = levels[0];
@@ -33,4 +33,12 @@ Composite.add(world, goalArea);
 
 // Setup placement
 const canvas = render.canvas;
-setupPlacement(world, canvas);
+const disablePlacement = setupPlacement(world, canvas);
+
+// Hook up Play button
+const playButton = document.getElementById("playButton") as HTMLButtonElement;
+playButton.addEventListener("click", () => {
+  disablePlacement(); // disables further interaction
+  playButton.disabled = true;
+  start(); // starts the simulation
+});

@@ -19,7 +19,14 @@ export function setupEngine() {
   });
 
   Matter.Render.run(render);
-  Matter.Runner.run(Matter.Runner.create(), engine);
 
-  return { engine, world, render };
+  const runner = Matter.Runner.create();
+
+  return {
+    engine,
+    world,
+    render,
+    runner,
+    start: () => Matter.Runner.run(runner, engine),
+  };
 }
