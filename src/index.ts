@@ -8,7 +8,7 @@ import Matter from "matter-js";
 const { Bodies, Composite } = Matter;
 
 // Setup the Matter.js engine and world
-const { engine, world, render, start } = setupEngine();
+const { engine, world, render, runner, start } = setupEngine();
 
 // Load the first level (you can change this dynamically later)
 const currentLevel: Level = levels[0];
@@ -27,7 +27,7 @@ const goalArea = Bodies.rectangle(
   currentLevel.goalArea.y,
   currentLevel.goalArea.width,
   currentLevel.goalArea.height,
-  { isStatic: true, render: { fillStyle: "green" } } // Make it green for visibility
+  { isStatic: true, isSensor: true, render: { fillStyle: "green" } } // Make it green for visibility
 );
 Composite.add(world, goalArea);
 
@@ -42,3 +42,19 @@ playButton.addEventListener("click", () => {
   playButton.disabled = true;
   start(); // starts the simulation
 });
+
+// Add a simple goal detection
+Matter.Events.on(engine, "collisionStart", (event) => {
+  for (const pair of event.pairs) {
+    const bodies = [pair.bodyA, pair.bodyB];
+    if (bodies.includes(ball) && bodies.includes(goalArea)) {
+      winGame();
+    }
+  }
+});
+
+function winGame() {
+  const winDiv = document.getElementById("winMessage");
+  if (winDiv) winDiv.style.display = "block";
+  Matter.Runner.stop(runner); // optional: stop simulation
+}
