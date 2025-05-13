@@ -1,12 +1,18 @@
 # SummerSchool2025_testTask
 
+## Installation and run
+
+```shell
+npm run start
+```
+
 ## Libraries
 
 Matter.js - physics engine
 
 ## Project structure
 
-```
+```shell
 game-project/
 │
 ├── public/              # Static files
@@ -33,3 +39,5 @@ game-project/
 | UI             | Vanilla JS or `React`           |
 | Asset Handling | Load via `<img>` / Audio APIs   |
 | Hosting        | `GitHub Pages`, `Vercel`, etc   |
+
+## Classes

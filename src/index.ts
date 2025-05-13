@@ -2,12 +2,13 @@
 import { setupEngine } from "./game/engine";
 import { createBall } from "./game/ball";
 import { levels, Level } from "./game/levels";
+import { setupPlacement } from "./game/placement";
 import Matter from "matter-js";
 
 const { Bodies, Composite } = Matter;
 
 // Setup the Matter.js engine and world
-const { engine, world } = setupEngine();
+const { engine, world, render } = setupEngine();
 
 // Load the first level (you can change this dynamically later)
 const currentLevel: Level = levels[0];
@@ -29,3 +30,7 @@ const goalArea = Bodies.rectangle(
   { isStatic: true, render: { fillStyle: "green" } } // Make it green for visibility
 );
 Composite.add(world, goalArea);
+
+// Setup placement
+const canvas = render.canvas;
+setupPlacement(world, canvas);

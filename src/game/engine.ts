@@ -1,25 +1,25 @@
-// src/game/engine.js
+// src/game/engine.ts
 import Matter from "matter-js";
 
-const { Engine, Render, Runner, Bodies, Composite } = Matter;
-
-export const setupEngine = () => {
-  const engine = Engine.create();
+export function setupEngine() {
+  const engine = Matter.Engine.create();
   const world = engine.world;
 
-  const render = Render.create({
-    element: document.body,
-    canvas: document.getElementById("gameCanvas") as HTMLCanvasElement,
-    engine: engine,
+  const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
+
+  const render = Matter.Render.create({
+    engine,
+    canvas,
     options: {
       width: 800,
       height: 600,
       wireframes: false,
+      background: "#fafafa",
     },
   });
 
-  Render.run(render);
-  Runner.run(Runner.create(), engine);
+  Matter.Render.run(render);
+  Matter.Runner.run(Matter.Runner.create(), engine);
 
-  return { engine, world };
-};
+  return { engine, world, render };
+}

@@ -5,9 +5,14 @@
     <title>The Ball</title>
   </head>
   <body>
-    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div id="ui">
+      <button onclick="selectPlaceable('wall')">Wall</button>
+      <button onclick="selectPlaceable('ramp')">Ramp</button>
+      <p>Remaining: <span id="remaining">3</span></p>
+    </div>
+    <canvas id="gameCanvas"></canvas>
 
-    <!-- Reference the output bundle.js file -->
-    <script src="bundle.js"></script>
+    <!-- Reference the output bundle.js file
+    <script src="bundle.js"></script> -->
   </body>
 </html>
