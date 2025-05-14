@@ -19,6 +19,72 @@ eval("/*!\n * matter-js 0.20.0 by @liabru\n * http://brm.io/matter-js/\n * Licen
 
 /***/ }),
 
+/***/ "./src/game/ball.ts":
+/*!**************************!*\
+  !*** ./src/game/ball.ts ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   createBall: () => (/* binding */ createBall)\n/* harmony export */ });\n/* harmony import */ var matter_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! matter-js */ \"./node_modules/matter-js/build/matter.js\");\n/* harmony import */ var matter_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(matter_js__WEBPACK_IMPORTED_MODULE_0__);\n// src/game/ball.js\n\nconst { Bodies } = (matter_js__WEBPACK_IMPORTED_MODULE_0___default());\nconst createBall = (world, position) => {\n    const ball = Bodies.circle(position.x, position.y, 20, { restitution: 0.8 });\n    matter_js__WEBPACK_IMPORTED_MODULE_0___default().World.add(world, ball);\n    return ball;\n};\n\n\n//# sourceURL=webpack://summerschool2025_testtask/./src/game/ball.ts?");
+
+/***/ }),
+
+/***/ "./src/game/engine.ts":
+/*!****************************!*\
+  !*** ./src/game/engine.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   setupEngine: () => (/* binding */ setupEngine)\n/* harmony export */ });\n/* harmony import */ var matter_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! matter-js */ \"./node_modules/matter-js/build/matter.js\");\n/* harmony import */ var matter_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(matter_js__WEBPACK_IMPORTED_MODULE_0__);\n// src/game/engine.ts\n\nfunction setupEngine() {\n    const engine = matter_js__WEBPACK_IMPORTED_MODULE_0___default().Engine.create();\n    const world = engine.world;\n    const canvas = document.getElementById(\"gameCanvas\");\n    const render = matter_js__WEBPACK_IMPORTED_MODULE_0___default().Render.create({\n        engine,\n        canvas,\n        options: {\n            width: 800,\n            height: 600,\n            wireframes: false,\n            background: \"#fafafa\",\n        },\n    });\n    matter_js__WEBPACK_IMPORTED_MODULE_0___default().Render.run(render);\n    const runner = matter_js__WEBPACK_IMPORTED_MODULE_0___default().Runner.create();\n    return {\n        engine,\n        world,\n        render,\n        runner,\n        start: () => matter_js__WEBPACK_IMPORTED_MODULE_0___default().Runner.run(runner, engine),\n    };\n}\n\n\n//# sourceURL=webpack://summerschool2025_testtask/./src/game/engine.ts?");
+
+/***/ }),
+
+/***/ "./src/game/levels.ts":
+/*!****************************!*\
+  !*** ./src/game/levels.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   levels: () => (/* binding */ levels)\n/* harmony export */ });\n/* harmony import */ var matter_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! matter-js */ \"./node_modules/matter-js/build/matter.js\");\n/* harmony import */ var matter_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(matter_js__WEBPACK_IMPORTED_MODULE_0__);\n// src/game/levels.ts\n\n// Define levels\nconst levels = [\n    {\n        ballPosition: { x: 100, y: 100 },\n        obstacles: [\n            matter_js__WEBPACK_IMPORTED_MODULE_0__.Bodies.rectangle(300, 400, 200, 20, { isStatic: true }),\n            matter_js__WEBPACK_IMPORTED_MODULE_0__.Bodies.circle(500, 200, 30, { isStatic: true }),\n        ],\n        goalArea: { x: 500, y: 500, width: 50, height: 50 },\n    },\n    {\n        ballPosition: { x: 150, y: 150 },\n        obstacles: [\n            matter_js__WEBPACK_IMPORTED_MODULE_0__.Bodies.rectangle(400, 350, 250, 20, { isStatic: true }),\n            matter_js__WEBPACK_IMPORTED_MODULE_0__.Bodies.rectangle(600, 250, 100, 20, { isStatic: true }),\n        ],\n        goalArea: { x: 750, y: 550, width: 50, height: 50 },\n    },\n    // Add more levels as needed\n];\n\n\n//# sourceURL=webpack://summerschool2025_testtask/./src/game/levels.ts?");
+
+/***/ }),
+
+/***/ "./src/game/loader.ts":
+/*!****************************!*\
+  !*** ./src/game/loader.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   getUnlockedLevel: () => (/* binding */ getUnlockedLevel),\n/* harmony export */   loadLevel: () => (/* binding */ loadLevel),\n/* harmony export */   saveProgress: () => (/* binding */ saveProgress)\n/* harmony export */ });\n/* harmony import */ var matter_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! matter-js */ \"./node_modules/matter-js/build/matter.js\");\n/* harmony import */ var matter_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(matter_js__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _levels__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./levels */ \"./src/game/levels.ts\");\n/* harmony import */ var _ball__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ball */ \"./src/game/ball.ts\");\n// game/loader.ts\n\n\n\nfunction saveProgress(unlockedLevel) {\n    localStorage.setItem(\"unlockedLevel\", unlockedLevel.toString());\n}\nfunction getUnlockedLevel() {\n    return parseInt(localStorage.getItem(\"unlockedLevel\") || \"0\", 10);\n}\nfunction loadLevel(index, world, engine, onWin) {\n    matter_js__WEBPACK_IMPORTED_MODULE_0___default().Composite.clear(world, false);\n    const level = _levels__WEBPACK_IMPORTED_MODULE_1__.levels[index];\n    const ball = (0,_ball__WEBPACK_IMPORTED_MODULE_2__.createBall)(world, level.ballPosition);\n    level.obstacles.forEach((o) => matter_js__WEBPACK_IMPORTED_MODULE_0___default().Composite.add(world, o));\n    const goal = matter_js__WEBPACK_IMPORTED_MODULE_0___default().Bodies.rectangle(level.goalArea.x, level.goalArea.y, level.goalArea.width, level.goalArea.height, { isStatic: true, isSensor: true, render: { fillStyle: \"green\" } });\n    matter_js__WEBPACK_IMPORTED_MODULE_0___default().Composite.add(world, goal);\n    // First remove any existing collisionStart listeners\n    matter_js__WEBPACK_IMPORTED_MODULE_0___default().Events.off(engine, \"collisionStart\");\n    matter_js__WEBPACK_IMPORTED_MODULE_0___default().Events.on(engine, \"collisionStart\", (event) => {\n        for (const pair of event.pairs) {\n            const bodies = [pair.bodyA, pair.bodyB];\n            if (bodies.includes(ball) && bodies.includes(goal)) {\n                onWin();\n                if (index + 1 > getUnlockedLevel()) {\n                    saveProgress(index + 1);\n                }\n            }\n        }\n    });\n}\n\n\n//# sourceURL=webpack://summerschool2025_testtask/./src/game/loader.ts?");
+
+/***/ }),
+
+/***/ "./src/game/placeables.ts":
+/*!********************************!*\
+  !*** ./src/game/placeables.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   createPlaceable: () => (/* binding */ createPlaceable)\n/* harmony export */ });\n/* harmony import */ var matter_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! matter-js */ \"./node_modules/matter-js/build/matter.js\");\n/* harmony import */ var matter_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(matter_js__WEBPACK_IMPORTED_MODULE_0__);\n\nconst createPlaceable = (type, x, y) => {\n    const { Bodies } = (matter_js__WEBPACK_IMPORTED_MODULE_0___default());\n    switch (type) {\n        case \"wall\":\n            return Bodies.rectangle(x, y, 100, 20, { isStatic: true });\n        case \"ramp\":\n            return Bodies.trapezoid(x, y, 100, 20, 0.5, { isStatic: true });\n        default:\n            throw new Error(`Unknown placeable type: ${type}`);\n    }\n};\n\n\n//# sourceURL=webpack://summerschool2025_testtask/./src/game/placeables.ts?");
+
+/***/ }),
+
+/***/ "./src/game/placement.ts":
+/*!*******************************!*\
+  !*** ./src/game/placement.ts ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   setupPlacement: () => (/* binding */ setupPlacement)\n/* harmony export */ });\n/* harmony import */ var matter_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! matter-js */ \"./node_modules/matter-js/build/matter.js\");\n/* harmony import */ var matter_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(matter_js__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _placeables__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./placeables */ \"./src/game/placeables.ts\");\n// src/game/placement.ts\n\n\nfunction setupPlacement(world, canvas) {\n    let selectedType = null;\n    let remainingObjects = 3;\n    let previewBody = null;\n    const mouse = { x: 0, y: 0 };\n    const handleMouseMove = (event) => {\n        const rect = canvas.getBoundingClientRect();\n        mouse.x = event.clientX - rect.left;\n        mouse.y = event.clientY - rect.top;\n        if (previewBody) {\n            matter_js__WEBPACK_IMPORTED_MODULE_0___default().Body.setPosition(previewBody, { x: mouse.x, y: mouse.y });\n        }\n    };\n    const handleClick = (event) => {\n        if (!selectedType || remainingObjects <= 0)\n            return;\n        const rect = canvas.getBoundingClientRect();\n        const x = event.clientX - rect.left;\n        const y = event.clientY - rect.top;\n        const placedBody = (0,_placeables__WEBPACK_IMPORTED_MODULE_1__.createPlaceable)(selectedType, x, y);\n        matter_js__WEBPACK_IMPORTED_MODULE_0___default().Composite.add(world, placedBody);\n        remainingObjects--;\n        updateRemainingUI(remainingObjects);\n        if (remainingObjects === 0) {\n            selectedType = null;\n            if (previewBody) {\n                matter_js__WEBPACK_IMPORTED_MODULE_0___default().World.remove(world, previewBody);\n                previewBody = null;\n            }\n        }\n    };\n    canvas.addEventListener(\"mousemove\", handleMouseMove);\n    canvas.addEventListener(\"click\", handleClick);\n    // UI hook to select which object to place\n    window.selectPlaceable = (type) => {\n        selectedType = type;\n        if (previewBody) {\n            matter_js__WEBPACK_IMPORTED_MODULE_0___default().World.remove(world, previewBody);\n            previewBody = null;\n        }\n        if (selectedType) {\n            previewBody = (0,_placeables__WEBPACK_IMPORTED_MODULE_1__.createPlaceable)(selectedType, mouse.x, mouse.y);\n            previewBody.render.fillStyle = \"rgba(0,0,255,0.3)\";\n            previewBody.isSensor = true; // Don't interact with physics\n            matter_js__WEBPACK_IMPORTED_MODULE_0___default().World.add(world, previewBody);\n        }\n    };\n    updateRemainingUI(remainingObjects);\n    // Return cleanup function\n    return () => {\n        canvas.removeEventListener(\"mousemove\", handleMouseMove);\n        canvas.removeEventListener(\"click\", handleClick);\n        if (previewBody) {\n            matter_js__WEBPACK_IMPORTED_MODULE_0___default().World.remove(world, previewBody);\n            previewBody = null;\n        }\n        selectedType = null;\n        window.selectPlaceable = () => { };\n    };\n}\nfunction updateRemainingUI(count) {\n    const display = document.getElementById(\"remaining\");\n    if (display)\n        display.textContent = count.toString();\n}\n\n\n//# sourceURL=webpack://summerschool2025_testtask/./src/game/placement.ts?");
+
+/***/ }),
+
 /***/ "./src/index.ts":
 /*!**********************!*\
   !*** ./src/index.ts ***!
@@ -26,7 +92,18 @@ eval("/*!\n * matter-js 0.20.0 by @liabru\n * http://brm.io/matter-js/\n * Licen
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var matter_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! matter-js */ \"./node_modules/matter-js/build/matter.js\");\n/* harmony import */ var matter_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(matter_js__WEBPACK_IMPORTED_MODULE_0__);\n\nconst { Engine, Render, Runner, Bodies, Composite } = (matter_js__WEBPACK_IMPORTED_MODULE_0___default());\n// Create the engine and world\nconst engine = Engine.create();\nconst world = engine.world;\n// Set up the renderer and attach to the body\nconst render = Render.create({\n    element: document.body,\n    canvas: document.getElementById(\"gameCanvas\"),\n    engine: engine,\n    options: {\n        width: 800,\n        height: 600,\n        wireframes: false, // Disable wireframe mode to make it look better\n    },\n});\n// Run the renderer and runner\nRender.run(render);\nRunner.run(Runner.create(), engine);\n// Create the ball\nconst ball = Bodies.circle(100, 100, 20, { restitution: 0.8 });\n// Add the ball to the world\nComposite.add(world, ball);\n// Create the ground (a static body)\nconst ground = Bodies.rectangle(400, 580, 810, 60, { isStatic: true });\n// Add the ground to the world\nComposite.add(world, ground);\n\n\n//# sourceURL=webpack://summerschool2025_testtask/./src/index.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var matter_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! matter-js */ \"./node_modules/matter-js/build/matter.js\");\n/* harmony import */ var matter_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(matter_js__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n/* harmony import */ var _game_engine__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./game/engine */ \"./src/game/engine.ts\");\n/* harmony import */ var _game_placement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./game/placement */ \"./src/game/placement.ts\");\n/* harmony import */ var _game_loader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./game/loader */ \"./src/game/loader.ts\");\n// src/main.ts\n\n // Import CSS styles\n\n\n\nfunction winGame() {\n    const winDiv = document.getElementById(\"winMessage\");\n    if (winDiv)\n        winDiv.style.display = \"block\";\n    matter_js__WEBPACK_IMPORTED_MODULE_0___default().Runner.stop(runner); // optional: stop simulation\n}\nconst { Bodies, Composite } = (matter_js__WEBPACK_IMPORTED_MODULE_0___default());\n// Setup the Matter.js engine and world\nconst { engine, world, render, runner, start } = (0,_game_engine__WEBPACK_IMPORTED_MODULE_2__.setupEngine)();\n// Setup placement\nconst canvas = render.canvas;\nconst disablePlacement = (0,_game_placement__WEBPACK_IMPORTED_MODULE_3__.setupPlacement)(world, canvas);\n// Hook up Play button\nconst playButton = document.getElementById(\"playButton\");\nplayButton.addEventListener(\"click\", () => {\n    disablePlacement(); // disables further interaction\n    playButton.disabled = true;\n    start(); // starts the simulation\n});\n// Initialize with first level\nlet currentLevelIndex = 0;\n(0,_game_loader__WEBPACK_IMPORTED_MODULE_4__.loadLevel)(currentLevelIndex, world, engine, winGame);\n// Show current level\nconst levelDisplay = document.getElementById(\"currentLevelDisplay\");\nif (levelDisplay) {\n    levelDisplay.textContent = `Current Level: ${currentLevelIndex + 1}`;\n}\n// Hook up level selection buttons\ndocument.querySelectorAll(\"#levelSelect button\").forEach((btn) => {\n    const levelIndex = parseInt(btn.getAttribute(\"data-level\"));\n    if (levelIndex > (0,_game_loader__WEBPACK_IMPORTED_MODULE_4__.getUnlockedLevel)()) {\n        btn.setAttribute(\"disabled\", \"true\");\n    }\n    btn.addEventListener(\"click\", () => {\n        currentLevelIndex = levelIndex;\n        playButton.disabled = false;\n        const winDiv = document.getElementById(\"winMessage\");\n        if (winDiv)\n            winDiv.style.display = \"none\";\n        (0,_game_loader__WEBPACK_IMPORTED_MODULE_4__.loadLevel)(currentLevelIndex, world, engine, winGame);\n    });\n});\n\n\n//# sourceURL=webpack://summerschool2025_testtask/./src/index.ts?");
+
+/***/ }),
+
+/***/ "./src/style.css":
+/*!***********************!*\
+  !*** ./src/style.css ***!
+  \***********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://summerschool2025_testtask/./src/style.css?");
 
 /***/ })
 

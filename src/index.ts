@@ -1,6 +1,8 @@
 // src/main.ts
 import Matter from "matter-js";
 
+import "./style.css"; // Import CSS styles
+
 import { setupEngine } from "./game/engine";
 import { createBall } from "./game/ball";
 import { levels, Level } from "./game/levels";
@@ -33,6 +35,12 @@ playButton.addEventListener("click", () => {
 // Initialize with first level
 let currentLevelIndex = 0;
 loadLevel(currentLevelIndex, world, engine, winGame);
+
+// Show current level
+const levelDisplay = document.getElementById("currentLevelDisplay");
+if (levelDisplay) {
+  levelDisplay.textContent = `Current Level: ${currentLevelIndex + 1}`;
+}
 
 // Hook up level selection buttons
 document.querySelectorAll("#levelSelect button").forEach((btn) => {

@@ -27,6 +27,10 @@ export function setupPlacement(world: Matter.World, canvas: HTMLCanvasElement) {
     const y = event.clientY - rect.top;
 
     const placedBody = createPlaceable(selectedType, x, y);
+    placedBody.render.fillStyle = "rgb(226, 120, 194)";
+    placedBody.render.lineWidth = 4;
+    placedBody.render.strokeStyle = "rgba(161, 132, 132, 0.56)";
+
     Matter.Composite.add(world, placedBody);
 
     remainingObjects--;
