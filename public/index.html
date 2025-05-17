@@ -18,8 +18,12 @@
     <canvas id="gameCanvas"></canvas>
 
     <div id="ui">
-      <button onclick="selectPlaceable('wall')">Wall</button>
-      <button onclick="selectPlaceable('ramp')">Ramp</button>
+      <button onclick="selectPlaceable('wall')">
+        <canvas id="wallPreview" width="100" height="50"></canvas>
+      </button>
+      <button onclick="selectPlaceable('ramp')">
+        <canvas id="rampPreview" width="100" height="50"></canvas>
+      </button>
       <button id="playButton">▶ Play</button>
       <button id="retryButton">Retry</button>
       <p>Remaining: <span id="remaining">3</span></p>

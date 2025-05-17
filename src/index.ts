@@ -8,6 +8,7 @@ import { setupEngine } from "./game/engine";
 import { createBall } from "./game/ball";
 import { levels, Level } from "./game/levels";
 import { setupPlacement } from "./game/placement";
+import { drawBodyPreview } from "./game/placeables";
 import { loadLevel, getUnlockedLevel, resetBall } from "./game/loader";
 
 function winGame() {
@@ -76,3 +77,13 @@ document.querySelectorAll("#levelSelect button").forEach((btn) => {
     loadLevel(currentLevelIndex, world, engine, winGame);
   });
 });
+
+// Object placement buttons
+
+const wallCanvas = document.getElementById("wallPreview") as HTMLCanvasElement;
+const rampCanvas = document.getElementById("rampPreview") as HTMLCanvasElement;
+
+window.onload = () => {
+  if (wallCanvas) drawBodyPreview(wallCanvas, "wall");
+  if (rampCanvas) drawBodyPreview(rampCanvas, "ramp");
+};
