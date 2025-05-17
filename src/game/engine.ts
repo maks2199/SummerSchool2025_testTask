@@ -16,9 +16,9 @@ export function setupEngine() {
       wireframes: false,
       background: "#fafafa",
       // showDebug: true,
-      showVelocity: true,
-      showCollisions: true,
-      showPositions: true,
+      // showVelocity: true,
+      // showCollisions: true,
+      // showPositions: true,
     },
   });
 

@@ -8,6 +8,7 @@ export function setupPlacement(world: Matter.World, canvas: HTMLCanvasElement) {
   let rotationAngle = 0;
   let isRightMouseDown = false;
   let rotationInterval: number | null = null;
+  let lastHoveredBody: Matter.Body | null = null;
 
   const placedObjects: Matter.Body[] = [];
 
@@ -21,6 +22,25 @@ export function setupPlacement(world: Matter.World, canvas: HTMLCanvasElement) {
 
     if (previewBody) {
       Matter.Body.setPosition(previewBody, { x: mouse.x, y: mouse.y });
+      return;
+    }
+
+    const hoveringBody = placedObjects.find((body) =>
+      Matter.Bounds.contains(body.bounds, mouse)
+    );
+
+    // Если курсор покинул предыдущий объект
+    if (lastHoveredBody && lastHoveredBody !== hoveringBody) {
+      lastHoveredBody.render.fillStyle = (
+        lastHoveredBody as any
+      ).originalFillStyle;
+      lastHoveredBody = null;
+    }
+
+    // Если курсор наведен на новый объект
+    if (hoveringBody && hoveringBody !== lastHoveredBody) {
+      lastHoveredBody = hoveringBody;
+      hoveringBody.render.fillStyle = "rgba(211, 81, 58, 0.5)";
     }
   };
 
@@ -33,9 +53,11 @@ export function setupPlacement(world: Matter.World, canvas: HTMLCanvasElement) {
     const y = event.clientY - rect.top;
 
     const placedBody = createPlaceable(selectedType, x, y);
-    placedBody.render.fillStyle = "rgb(226, 120, 194)";
-    placedBody.render.lineWidth = 4;
-    placedBody.render.strokeStyle = "rgba(161, 132, 132, 0.56)";
+    placedBody.render.fillStyle = "rgba(214, 131, 189, 0.75)";
+    placedBody.render.lineWidth = 1;
+    placedBody.render.strokeStyle = "rgb(80, 79, 79)";
+    // 👇 сохраняем оригинальный цвет
+    (placedBody as any).originalFillStyle = placedBody.render.fillStyle;
 
     Matter.Body.setAngle(placedBody, rotationAngle);
     Matter.Composite.add(world, placedBody);
@@ -51,6 +73,24 @@ export function setupPlacement(world: Matter.World, canvas: HTMLCanvasElement) {
         previewBody = null;
       }
     }
+
+    // Handle click to delete placed objects TODO
+    // if (!previewBody) {
+    //   console.log("Deleting object under cursor");
+    //   const found = placedObjects.find((body) =>
+    //     Matter.Bounds.contains(body.bounds, mouse)
+    //   );
+
+    //   if (found) {
+    //     Matter.World.remove(world, found);
+    //     const index = placedObjects.indexOf(found);
+    //     if (index !== -1) placedObjects.splice(index, 1);
+
+    //     remainingObjects++;
+    //     updateRemainingUI(remainingObjects);
+    //     console.log("Deleted object at", mouse.x, mouse.y);
+    //   }
+    // }
   };
 
   const handleKeyDown = (event: KeyboardEvent) => {
@@ -100,8 +140,6 @@ export function setupPlacement(world: Matter.World, canvas: HTMLCanvasElement) {
   canvas.addEventListener("click", handleClick);
 
   // Rotate preview body with right mouse button
-  // canvas.addEventListener("keydown", handleKeyDown);
-  // canvas.addEventListener("contextmenu", handleRightMouseClick);
   canvas.addEventListener("mousedown", handleRightMouseDown);
   canvas.addEventListener("mouseup", handleRightMouseUp);
   canvas.addEventListener("contextmenu", (e) => e.preventDefault());

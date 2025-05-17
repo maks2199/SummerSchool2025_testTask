@@ -29,7 +29,15 @@ export function loadLevel(
     level.goalArea.y,
     level.goalArea.width,
     level.goalArea.height,
-    { isStatic: true, isSensor: true, render: { fillStyle: "green" } }
+    {
+      isStatic: true,
+      isSensor: true,
+      render: {
+        fillStyle: "rgba(28, 168, 47, 0.6)",
+        strokeStyle: "rgba(28, 168, 47, 0.99)",
+        lineWidth: 1,
+      },
+    }
   );
   Matter.Composite.add(world, goal);
 
