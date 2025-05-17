@@ -19,7 +19,7 @@ export const createBall = (
     render: {
       sprite: {
         texture: ballImage,
-        xScale: 60 / 1992,
+        xScale: 60 / 1992, // diameter devided by resolution
         yScale: 60 / 1992,
       },
       lineWidth: 5,

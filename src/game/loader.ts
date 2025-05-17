@@ -3,6 +3,8 @@ import Matter from "matter-js";
 import { levels, Level } from "./levels";
 import { createBall } from "./ball";
 
+import goalImage from "../assets/goal.png"; // Import image for the ball
+
 export function saveProgress(unlockedLevel: number) {
   localStorage.setItem("unlockedLevel", unlockedLevel.toString());
 }
@@ -36,6 +38,11 @@ export function loadLevel(
         fillStyle: "rgba(28, 168, 47, 0.6)",
         strokeStyle: "rgba(28, 168, 47, 0.99)",
         lineWidth: 1,
+        sprite: {
+          texture: goalImage,
+          xScale: 50 / 2083, // diameter devided by resolution
+          yScale: 50 / 2083,
+        },
       },
     }
   );

@@ -24,7 +24,7 @@ export const levels: Level[] = [
       Bodies.rectangle(400, 350, 250, 20, { isStatic: true }),
       Bodies.rectangle(600, 250, 100, 20, { isStatic: true }),
     ],
-    goalArea: { x: 750, y: 550, width: 50, height: 50 },
+    goalArea: { x: 500, y: 500, width: 50, height: 50 },
   },
   // Add more levels as needed
 ];
