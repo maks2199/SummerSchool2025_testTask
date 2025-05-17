@@ -1,0 +1,74 @@
+/*!*****************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/style.css ***!
+  \*****************************************************************/
+/* style.css */
+
+body {
+  font-family: sans-serif;
+  background: #f0f0f0;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#gameCanvas {
+  border: 2px solid #9b9b9b;
+  margin-top: 20px;
+  background: white;
+}
+
+#ui,
+#levelSelect {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#ui button,
+#levelSelect button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 16px;
+}
+
+#ui button:hover,
+#levelSelect button:hover {
+  background-color: #0056b3;
+}
+
+#ui button:disabled,
+#levelSelect button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+#currentLevelDisplay {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#winMessage {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2em;
+  background: white;
+  padding: 20px 30px;
+  border: 3px solid green;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+

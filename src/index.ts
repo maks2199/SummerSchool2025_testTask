@@ -2,6 +2,7 @@
 import Matter from "matter-js";
 
 import "./style.css"; // Import CSS styles
+import ballImage from "./assets/ball.jpg"; // Import image for the ball
 
 import { setupEngine } from "./game/engine";
 import { createBall } from "./game/ball";

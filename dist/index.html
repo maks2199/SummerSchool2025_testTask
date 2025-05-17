@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>The Ball</title>
-  <script defer src="bundle.js"></script><link href="public/style.css" rel="stylesheet"></head>
+  <script defer src="bundle.js"></script><link href="style.css" rel="stylesheet"></head>
   <body>
     <div id="levelSelect">
       <button data-level="0">Level 1</button>
@@ -13,13 +13,17 @@
 
     <div id="currentLevelDisplay">Current Level: 1</div>
 
+    <img src="/src/assets/ball.jpg" alt="Ball test image" width="100" />
+
+    <canvas id="gameCanvas"></canvas>
+
     <div id="ui">
       <button onclick="selectPlaceable('wall')">Wall</button>
       <button onclick="selectPlaceable('ramp')">Ramp</button>
       <button id="playButton">▶ Play</button>
+      <button id="retryButton">Retry</button>
       <p>Remaining: <span id="remaining">3</span></p>
     </div>
-    <canvas id="gameCanvas"></canvas>
 
     <div
       id="winMessage"

@@ -20,6 +20,11 @@ module.exports = {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
+      {
+        test: /\.(png|jpg|gif|svg)$/i,
+        type: "asset/resource", // This emits the file and gives you the URL
+        // use: ["file-loader"], // Use file-loader for images
+      },
     ],
   },
   resolve: {
