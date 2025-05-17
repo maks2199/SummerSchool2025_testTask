@@ -46,50 +46,56 @@ export function setupPlacement(world: Matter.World, canvas: HTMLCanvasElement) {
 
   const handleClick = (event: MouseEvent) => {
     console.log("Mouse clicked at:", mouse.x, mouse.y);
-    if (!selectedType || remainingObjects <= 0) return;
+    // if (!selectedType || remainingObjects <= 0) return;
 
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
-    const placedBody = createPlaceable(selectedType, x, y);
-    placedBody.render.fillStyle = "rgba(214, 131, 189, 0.75)";
-    placedBody.render.lineWidth = 1;
-    placedBody.render.strokeStyle = "rgb(80, 79, 79)";
-    // 👇 сохраняем оригинальный цвет
-    (placedBody as any).originalFillStyle = placedBody.render.fillStyle;
+    if (selectedType && remainingObjects > 0) {
+      console.log("Placing object at:", x, y);
+      const placedBody = createPlaceable(selectedType, x, y);
+      placedBody.render.fillStyle = "rgba(214, 131, 189, 0.75)";
+      placedBody.render.lineWidth = 1;
+      placedBody.render.strokeStyle = "rgb(80, 79, 79)";
+      // 👇 сохраняем оригинальный цвет
+      (placedBody as any).originalFillStyle = placedBody.render.fillStyle;
 
-    Matter.Body.setAngle(placedBody, rotationAngle);
-    Matter.Composite.add(world, placedBody);
-    placedObjects.push(placedBody);
+      Matter.Body.setAngle(placedBody, rotationAngle);
+      Matter.Composite.add(world, placedBody);
+      placedObjects.push(placedBody);
 
-    remainingObjects--;
-    updateRemainingUI(remainingObjects);
+      remainingObjects--;
+      updateRemainingUI(remainingObjects);
 
-    if (remainingObjects === 0) {
-      selectedType = null;
-      if (previewBody) {
-        Matter.World.remove(world, previewBody);
-        previewBody = null;
+      if (remainingObjects === 0) {
+        selectedType = null;
+        if (previewBody) {
+          Matter.World.remove(world, previewBody);
+          previewBody = null;
+        }
       }
+
+      return;
     }
-
     // Handle click to delete placed objects TODO
+
     // if (!previewBody) {
-    //   console.log("Deleting object under cursor");
-    //   const found = placedObjects.find((body) =>
-    //     Matter.Bounds.contains(body.bounds, mouse)
-    //   );
+    // if not in preview mode
+    console.log("Deleting object under cursor");
+    const found = placedObjects.find((body) =>
+      Matter.Bounds.contains(body.bounds, mouse)
+    );
 
-    //   if (found) {
-    //     Matter.World.remove(world, found);
-    //     const index = placedObjects.indexOf(found);
-    //     if (index !== -1) placedObjects.splice(index, 1);
+    if (found) {
+      Matter.World.remove(world, found);
+      const index = placedObjects.indexOf(found);
+      if (index !== -1) placedObjects.splice(index, 1);
 
-    //     remainingObjects++;
-    //     updateRemainingUI(remainingObjects);
-    //     console.log("Deleted object at", mouse.x, mouse.y);
-    //   }
+      remainingObjects++;
+      updateRemainingUI(remainingObjects);
+      console.log("Deleted object at", mouse.x, mouse.y);
+    }
     // }
   };
 
