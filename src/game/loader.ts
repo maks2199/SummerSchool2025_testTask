@@ -47,4 +47,22 @@ export function loadLevel(
       }
     }
   });
+
+  return ball;
+}
+
+export function resetBall(
+  world: Matter.World,
+  ball: Matter.Body,
+  index: number
+) {
+  Matter.Composite.remove(world, ball);
+
+  const level: Level = levels[index];
+  const ball2 = createBall(world, level.ballPosition);
+
+  const startPos = level.ballPosition;
+  Matter.Body.setPosition(ball, startPos);
+  Matter.Body.setVelocity(ball, { x: 0, y: 0 });
+  Matter.Body.setAngularVelocity(ball, 0);
 }

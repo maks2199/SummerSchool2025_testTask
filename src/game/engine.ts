@@ -15,6 +15,10 @@ export function setupEngine() {
       height: 600,
       wireframes: false,
       background: "#fafafa",
+      // showDebug: true,
+      showVelocity: true,
+      showCollisions: true,
+      showPositions: true,
     },
   });
 

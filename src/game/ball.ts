@@ -1,7 +1,7 @@
 // src/game/ball.js
 import Matter from "matter-js";
 
-const { Bodies } = Matter;
+const { Bodies, Body, Composite } = Matter;
 
 interface Position {
   x: number;
@@ -16,3 +16,17 @@ export const createBall = (
   Matter.World.add(world, ball);
   return ball;
 };
+
+// export const resetBall = (
+//   world: Matter.World,
+//   pos: { x: number; y: number }
+// ) => {
+//   const ball = Matter.Composite.allBodies(world).find(
+//     (b) => b.label === "Ball"
+//   );
+//   if (!ball) return;
+
+//   Matter.Body.setPosition(ball, pos);
+//   Matter.Body.setVelocity(ball, { x: 0, y: 0 });
+//   Matter.Body.setAngularVelocity(ball, 0);
+// };
