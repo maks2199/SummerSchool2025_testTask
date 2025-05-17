@@ -6,6 +6,8 @@ export function setupPlacement(world: Matter.World, canvas: HTMLCanvasElement) {
   let selectedType: PlaceableType | null = null;
   let remainingObjects = 3;
   let rotationAngle = 0;
+  let isRightMouseDown = false;
+  let rotationInterval: number | null = null;
 
   const placedObjects: Matter.Body[] = [];
 
@@ -60,20 +62,49 @@ export function setupPlacement(world: Matter.World, canvas: HTMLCanvasElement) {
     }
   };
 
-  const handleRightMouseClick = (event: MouseEvent) => {
-    console.log("Right mouse clicked at:", mouse.x, mouse.y);
-    event.preventDefault(); // Prevent context menu
-    rotationAngle += Math.PI / 8; // rotate 22.5 degrees
-    if (previewBody) {
-      Matter.Body.setAngle(previewBody, rotationAngle);
+  // const handleRightMouseClick = (event: MouseEvent) => {
+  //   console.log("Right mouse clicked at:", mouse.x, mouse.y);
+  //   event.preventDefault(); // Prevent context menu
+  //   rotationAngle += Math.PI / 8; // rotate 22.5 degrees
+  //   if (previewBody) {
+  //     Matter.Body.setAngle(previewBody, rotationAngle);
+  //   }
+  //   console.log("Rotated preview body to angle:", rotationAngle);
+  // };
+
+  const handleRightMouseDown = (event: MouseEvent) => {
+    if (event.button === 2 && previewBody) {
+      console.log("Right mouse button down");
+      event.preventDefault();
+      isRightMouseDown = true;
+
+      rotationInterval = window.setInterval(() => {
+        rotationAngle += Math.PI / 180; // rotate 22.5 degrees
+        if (previewBody) {
+          Matter.Body.setAngle(previewBody, rotationAngle);
+        }
+      }, 16);
     }
-    console.log("Rotated preview body to angle:", rotationAngle);
+  };
+  const handleRightMouseUp = (event: MouseEvent) => {
+    if (event.button === 2) {
+      isRightMouseDown = false;
+      if (rotationInterval !== null) {
+        clearInterval(rotationInterval);
+        rotationInterval = null;
+      }
+    }
   };
 
   canvas.addEventListener("mousemove", handleMouseMove);
   canvas.addEventListener("click", handleClick);
-  canvas.addEventListener("keydown", handleKeyDown);
-  canvas.addEventListener("contextmenu", handleRightMouseClick);
+
+  // Rotate preview body with right mouse button
+  // canvas.addEventListener("keydown", handleKeyDown);
+  // canvas.addEventListener("contextmenu", handleRightMouseClick);
+  canvas.addEventListener("mousedown", handleRightMouseDown);
+  canvas.addEventListener("mouseup", handleRightMouseUp);
+  canvas.addEventListener("contextmenu", (e) => e.preventDefault());
 
   // UI hook to select which object to place
   (window as any).selectPlaceable = (type: PlaceableType) => {
