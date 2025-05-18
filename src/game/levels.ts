@@ -16,6 +16,14 @@ export const levels: Level[] = [
       Bodies.rectangle(300, 400, 200, 20, { isStatic: true }),
       Bodies.circle(500, 200, 30, { isStatic: true }),
     ],
+    goalArea: { x: 100, y: 500, width: 50, height: 50 },
+  },
+  {
+    ballPosition: { x: 100, y: 100 },
+    obstacles: [
+      Bodies.rectangle(300, 400, 200, 20, { isStatic: true }),
+      Bodies.circle(500, 200, 30, { isStatic: true }),
+    ],
     goalArea: { x: 500, y: 500, width: 50, height: 50 },
   },
   {

@@ -11,6 +11,9 @@ import { setupPlacement } from "./game/placement";
 import { drawBodyPreview } from "./game/placeables";
 import { loadLevel, getUnlockedLevel, resetBall } from "./game/loader";
 
+const gameContainer = document.getElementById("gameContainer")!;
+const startScreen = document.getElementById("startScreen")!;
+
 function winGame() {
   const winDiv = document.getElementById("winMessage");
   if (winDiv) winDiv.style.display = "block";
@@ -50,9 +53,12 @@ retryButton.addEventListener("click", () => {
   if (winDiv) winDiv.style.display = "none";
 });
 
-// Initialize with first level
+// // Initialize with first level
+// let currentLevelIndex = 0;
+// let ball = loadLevel(currentLevelIndex, world, engine, winGame);
+
+let ball: Matter.Body;
 let currentLevelIndex = 0;
-let ball = loadLevel(currentLevelIndex, world, engine, winGame);
 
 // Show current level
 const levelDisplay = document.getElementById("currentLevelDisplay");
@@ -60,7 +66,7 @@ if (levelDisplay) {
   levelDisplay.textContent = `Current Level: ${currentLevelIndex + 1}`;
 }
 
-// Hook up level selection buttons
+// Setup level selection
 document.querySelectorAll("#levelSelect button").forEach((btn) => {
   const levelIndex = parseInt(btn.getAttribute("data-level")!);
   if (levelIndex > getUnlockedLevel()) {
@@ -69,12 +75,24 @@ document.querySelectorAll("#levelSelect button").forEach((btn) => {
 
   btn.addEventListener("click", () => {
     currentLevelIndex = levelIndex;
-    playButton.disabled = false;
 
+    // Hide start screen and show game
+    startScreen.style.display = "none";
+    gameContainer.style.display = "block";
+
+    // Load selected level
+    ball = loadLevel(currentLevelIndex, world, engine, winGame);
+
+    // Update level display
+    const levelDisplay = document.getElementById("currentLevelDisplay");
+    if (levelDisplay) {
+      levelDisplay.textContent = `Current Level: ${currentLevelIndex + 1}`;
+    }
+
+    // Reset button state
     const winDiv = document.getElementById("winMessage");
     if (winDiv) winDiv.style.display = "none";
-
-    loadLevel(currentLevelIndex, world, engine, winGame);
+    playButton.disabled = false;
   });
 });
 

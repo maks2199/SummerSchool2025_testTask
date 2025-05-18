@@ -20,23 +20,29 @@ export const createPlaceable = (
 
 export const drawBodyPreview = (
   canvas: HTMLCanvasElement,
-  type: PlaceableType
+  type: PlaceableType,
+  scale = 0.5 // Add a scale parameter (default 0.5)
 ) => {
   const ctx = canvas.getContext("2d");
+  if (!ctx) return;
 
-  // Create a Matter body (offscreen)
   const body = createPlaceable(type, 0, 0);
 
-  // Center the body in the canvas
+  // Clear previous drawing
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Compute center of body
+  const centerX = (body.bounds.min.x + body.bounds.max.x) / 2;
+  const centerY = (body.bounds.min.y + body.bounds.max.y) / 2;
+
   const offsetX = canvas.width / 2;
   const offsetY = canvas.height / 2;
 
-  if (!ctx) return;
   ctx.fillStyle = "rgb(255, 255, 255)";
   ctx.beginPath();
   body.vertices.forEach((v, i) => {
-    const x = v.x + offsetX;
-    const y = v.y + offsetY;
+    const x = (v.x - centerX) * scale + offsetX;
+    const y = (v.y - centerY) * scale + offsetY;
     if (i === 0) ctx.moveTo(x, y);
     else ctx.lineTo(x, y);
   });

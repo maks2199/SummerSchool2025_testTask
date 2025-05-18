@@ -5,45 +5,58 @@
     <title>The Ball</title>
   </head>
   <body>
-    <div id="levelSelect">
-      <button data-level="0">Level 1</button>
-      <button data-level="1">Level 2</button>
-      <button data-level="2">Level 3</button>
+    <div id="startScreen">
+      <h1>The Ball 🎮</h1>
+      <p>Добро пожаловать! Готов к приключению?</p>
+      <p>Выбери уровень, чтобы начать:</p>
+      <div id="levelSelect">
+        <button data-level="0">Level 1</button>
+        <button data-level="1">Level 2</button>
+        <button data-level="2">Level 3</button>
+      </div>
     </div>
 
-    <div id="currentLevelDisplay">Current Level: 1</div>
+    <div id="gameContainer" style="display: none">
+      <!-- <div id="levelSelect">
+        <button data-level="0">Level 1</button>
+        <button data-level="1">Level 2</button>
+        <button data-level="2">Level 3</button>
+      </div> -->
 
-    <div id="insertImage"></div>
+      <div id="currentLevelDisplay">Current Level: 1</div>
 
-    <canvas id="gameCanvas"></canvas>
+      <div id="insertImage"></div>
 
-    <div id="ui">
-      <button onclick="selectPlaceable('wall')">
-        <canvas id="wallPreview" width="100" height="50"></canvas>
-      </button>
-      <button onclick="selectPlaceable('ramp')">
-        <canvas id="rampPreview" width="100" height="50"></canvas>
-      </button>
-      <button id="playButton">▶ Play</button>
-      <button id="retryButton">Retry</button>
-      <p>Remaining: <span id="remaining">3</span></p>
-    </div>
+      <canvas id="gameCanvas"></canvas>
 
-    <div
-      id="winMessage"
-      style="
-        display: none;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 2em;
-        background: white;
-        padding: 20px;
-        border: 2px solid green;
-      "
-    >
-      🎉 You Win!
+      <div id="ui">
+        <button onclick="selectPlaceable('wall')">
+          <canvas id="wallPreview" width="50" height="20"></canvas>
+        </button>
+        <button onclick="selectPlaceable('ramp')">
+          <canvas id="rampPreview" width="50" height="20"></canvas>
+        </button>
+        <button id="playButton">▶ Play</button>
+        <button id="retryButton">Retry</button>
+        <p>Remaining: <span id="remaining">3</span></p>
+      </div>
+
+      <div
+        id="winMessage"
+        style="
+          display: none;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 2em;
+          background: white;
+          padding: 20px;
+          border: 2px solid green;
+        "
+      >
+        🎉 Победа! Ты на шаг ближе к Летней школе!
+      </div>
     </div>
   </body>
 </html>
