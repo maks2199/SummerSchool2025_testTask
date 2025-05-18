@@ -95,6 +95,10 @@ document.querySelectorAll("#levelSelect button").forEach((btn) => {
     playButton.disabled = false;
   });
 });
+document.getElementById("menu-toggle")?.addEventListener("click", () => {
+  startScreen.style.display = "flex";
+  gameContainer.style.display = "none";
+});
 
 // Object placement buttons
 

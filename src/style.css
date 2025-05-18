@@ -26,6 +26,22 @@ body {
   z-index: 100;
 }
 
+#menuButton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+}
+#menuButton button {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+#currentLevelDisplay {
+  padding: 10px;
+  align-content: center;
+}
+
 #gameCanvas {
   border: 2px solid #9b9b9b;
   margin-top: 20px;

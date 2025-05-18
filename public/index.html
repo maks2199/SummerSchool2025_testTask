@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <title>The Ball</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
   </head>
   <body>
     <div id="startScreen">
@@ -20,13 +24,17 @@
     </div>
 
     <div id="gameContainer" style="display: none">
+      <div id="menuButton">
+        <button id="menu-toggle">
+          <i class="fas fa-bars fa-2x"></i>
+        </button>
+        <div id="currentLevelDisplay">Current Level: 1</div>
+      </div>
       <!-- <div id="levelSelect">
         <button data-level="0">Level 1</button>
         <button data-level="1">Level 2</button>
         <button data-level="2">Level 3</button>
       </div> -->
-
-      <div id="currentLevelDisplay">Current Level: 1</div>
 
       <div id="insertImage"></div>
 
