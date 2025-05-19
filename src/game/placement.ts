@@ -184,6 +184,28 @@ export function setupPlacement(world: Matter.World, canvas: HTMLCanvasElement) {
       selectedType = null;
       (window as any).selectPlaceable = () => {};
     },
+    returnPlacement: () => {
+      canvas.addEventListener("mousemove", handleMouseMove);
+      canvas.addEventListener("click", handleClick);
+      canvas.addEventListener("keydown", handleKeyDown);
+      (window as any).selectPlaceable = (type: PlaceableType) => {
+        selectedType = type;
+
+        if (previewBody) {
+          Matter.World.remove(world, previewBody);
+          previewBody = null;
+        }
+
+        if (selectedType) {
+          previewBody = createPlaceable(selectedType, mouse.x, mouse.y);
+          previewBody.render.fillStyle = "rgba(156, 156, 167, 0.3)";
+          previewBody.render.lineWidth = 1;
+          previewBody.render.strokeStyle = "rgba(156, 156, 167, 0.3)";
+          previewBody.isSensor = true; // Don't interact with physics
+          Matter.World.add(world, previewBody);
+        }
+      };
+    },
     getPlacedObjects: () => placedObjects,
   };
 

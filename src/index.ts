@@ -27,7 +27,10 @@ const { engine, world, render, runner, start } = setupEngine();
 
 // Setup placement
 const canvas = render.canvas;
-const { disablePlacement, getPlacedObjects } = setupPlacement(world, canvas);
+const { disablePlacement, returnPlacement, getPlacedObjects } = setupPlacement(
+  world,
+  canvas
+);
 
 // Hook up Play button
 const playButton = document.getElementById("playButton") as HTMLButtonElement;
@@ -40,6 +43,7 @@ playButton.addEventListener("click", () => {
 // Hook up Reset button
 const retryButton = document.getElementById("retryButton") as HTMLButtonElement;
 retryButton.addEventListener("click", () => {
+  returnPlacement(); // enables further interaction
   // const startPos = levels[currentLevelIndex].ballPosition; // ← позиция уровня
 
   // Reset the ball position and velocity
@@ -63,7 +67,7 @@ let currentLevelIndex = 0;
 // Show current level
 const levelDisplay = document.getElementById("currentLevelDisplay");
 if (levelDisplay) {
-  levelDisplay.textContent = `Current Level: ${currentLevelIndex + 1}`;
+  levelDisplay.textContent = `Уровень: ${currentLevelIndex + 1}`;
 }
 
 // Setup level selection
@@ -86,7 +90,7 @@ document.querySelectorAll("#levelSelect button").forEach((btn) => {
     // Update level display
     const levelDisplay = document.getElementById("currentLevelDisplay");
     if (levelDisplay) {
-      levelDisplay.textContent = `Current Level: ${currentLevelIndex + 1}`;
+      levelDisplay.textContent = `Уровень: ${currentLevelIndex + 1}`;
     }
 
     // Reset button state
