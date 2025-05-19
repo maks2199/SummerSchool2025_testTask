@@ -9,7 +9,12 @@ import { createBall } from "./game/ball";
 import { levels, Level } from "./game/levels";
 import { setupPlacement } from "./game/placement";
 import { drawBodyPreview } from "./game/placeables";
-import { loadLevel, getUnlockedLevel, resetBall } from "./game/loader";
+import {
+  loadLevel,
+  getUnlockedLevel,
+  resetBall,
+  resetLevel,
+} from "./game/loader";
 
 const gameContainer = document.getElementById("gameContainer")!;
 const startScreen = document.getElementById("startScreen")!;
@@ -27,10 +32,8 @@ const { engine, world, render, runner, start } = setupEngine();
 
 // Setup placement
 const canvas = render.canvas;
-const { disablePlacement, returnPlacement, getPlacedObjects } = setupPlacement(
-  world,
-  canvas
-);
+const { disablePlacement, returnPlacement, getPlacedObjects, resetPlacement } =
+  setupPlacement(world, canvas);
 
 // Hook up Play button
 const playButton = document.getElementById("playButton") as HTMLButtonElement;
@@ -40,7 +43,7 @@ playButton.addEventListener("click", () => {
   start(); // starts the simulation
 });
 
-// Hook up Reset button
+// Hook up Retry button
 const retryButton = document.getElementById("retryButton") as HTMLButtonElement;
 retryButton.addEventListener("click", () => {
   returnPlacement(); // enables further interaction
@@ -55,6 +58,12 @@ retryButton.addEventListener("click", () => {
 
   const winDiv = document.getElementById("winMessage");
   if (winDiv) winDiv.style.display = "none";
+});
+// Hook up Reset button
+const resetButton = document.getElementById("resetButton") as HTMLButtonElement;
+resetButton.addEventListener("click", () => {
+  resetLevel(currentLevelIndex, world, engine, winGame); // enables further interaction
+  resetPlacement();
 });
 
 // // Initialize with first level

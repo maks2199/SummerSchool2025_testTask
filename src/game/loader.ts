@@ -83,3 +83,12 @@ export function resetBall(
   Matter.Body.setVelocity(ball, { x: 0, y: 0 });
   Matter.Body.setAngularVelocity(ball, 0);
 }
+
+export function resetLevel(
+  index: number,
+  world: Matter.World,
+  engine: Matter.Engine,
+  onWin: () => void
+) {
+  loadLevel(index, world, engine, onWin);
+}

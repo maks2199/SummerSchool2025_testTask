@@ -171,6 +171,21 @@ export function setupPlacement(world: Matter.World, canvas: HTMLCanvasElement) {
 
   updateRemainingUI(remainingObjects);
 
+  function resetPlacement() {
+    placedObjects.forEach((body) => {
+      Matter.World.remove(world, body);
+    });
+    placedObjects.length = 0;
+    remainingObjects = 3;
+    updateRemainingUI(remainingObjects);
+    selectedType = null;
+
+    if (previewBody) {
+      Matter.World.remove(world, previewBody);
+      previewBody = null;
+    }
+  }
+
   // Return cleanup function
   return {
     disablePlacement: () => {
@@ -207,6 +222,7 @@ export function setupPlacement(world: Matter.World, canvas: HTMLCanvasElement) {
       };
     },
     getPlacedObjects: () => placedObjects,
+    resetPlacement,
   };
 
   function updateRemainingUI(count: number) {

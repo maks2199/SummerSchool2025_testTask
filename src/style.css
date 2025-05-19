@@ -80,6 +80,13 @@ body {
   cursor: not-allowed;
 }
 
+#ui #resetButton {
+  background-color: tomato;
+}
+#ui #resetButton:hover {
+  background-color: rgb(202, 78, 57);
+}
+
 #currentLevelDisplay {
   font-size: 18px;
   font-weight: bold;
