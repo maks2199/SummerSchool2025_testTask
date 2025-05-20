@@ -2,18 +2,22 @@
 import Matter from "matter-js";
 import { createPlaceable, PlaceableType } from "./placeables";
 
-export function setupPlacement(world: Matter.World, canvas: HTMLCanvasElement) {
+export function setupPlacement(
+  world: Matter.World,
+  canvas: HTMLCanvasElement,
+  movableBodies: Matter.Body[]
+) {
   let selectedType: PlaceableType | null = null;
   let remainingObjects = 3;
   let rotationAngle = 0;
   let isRightMouseDown = false;
   let rotationInterval: number | null = null;
   let lastHoveredBody: Matter.Body | null = null;
-
   const placedObjects: Matter.Body[] = [];
-
   let previewBody: Matter.Body | null = null;
   const mouse = { x: 0, y: 0 };
+  let draggingBody: Matter.Body | null = null;
+  let offset = { x: 0, y: 0 };
 
   const handleMouseMove = (event: MouseEvent) => {
     const rect = canvas.getBoundingClientRect();
@@ -22,6 +26,13 @@ export function setupPlacement(world: Matter.World, canvas: HTMLCanvasElement) {
 
     if (previewBody) {
       Matter.Body.setPosition(previewBody, { x: mouse.x, y: mouse.y });
+      return;
+    }
+    if (draggingBody) {
+      Matter.Body.setPosition(draggingBody, {
+        x: mouse.x + offset.x,
+        y: mouse.y + offset.y,
+      });
       return;
     }
 
@@ -142,6 +153,26 @@ export function setupPlacement(world: Matter.World, canvas: HTMLCanvasElement) {
     }
   };
 
+  // Handle mouse down to start dragging
+  const handleMouseDown = (event: MouseEvent) => {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+
+    const body = movableBodies.find((b) =>
+      Matter.Bounds.contains(b.bounds, { x: mouseX, y: mouseY })
+    );
+
+    if (body) {
+      draggingBody = body;
+      offset.x = body.position.x - mouseX;
+      offset.y = body.position.y - mouseY;
+    }
+  };
+  const handleMouseUp = (event: MouseEvent) => {
+    draggingBody = null;
+  };
+
   canvas.addEventListener("mousemove", handleMouseMove);
   canvas.addEventListener("click", handleClick);
 
@@ -149,6 +180,10 @@ export function setupPlacement(world: Matter.World, canvas: HTMLCanvasElement) {
   canvas.addEventListener("mousedown", handleRightMouseDown);
   canvas.addEventListener("mouseup", handleRightMouseUp);
   canvas.addEventListener("contextmenu", (e) => e.preventDefault());
+
+  // Handle dragging of movable bodies
+  canvas.addEventListener("mousedown", handleMouseDown);
+  canvas.addEventListener("mouseup", handleMouseUp);
 
   // UI hook to select which object to place
   (window as any).selectPlaceable = (type: PlaceableType) => {

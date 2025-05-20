@@ -30,55 +30,6 @@ const { Bodies, Composite } = Matter;
 // Setup the Matter.js engine and world
 const { engine, world, render, runner, start } = setupEngine();
 
-// Setup placement
-const canvas = render.canvas;
-const { disablePlacement, returnPlacement, getPlacedObjects, resetPlacement } =
-  setupPlacement(world, canvas);
-
-// Hook up Play button
-const playButton = document.getElementById("playButton") as HTMLButtonElement;
-playButton.addEventListener("click", () => {
-  disablePlacement(); // disables further interaction
-  playButton.disabled = true;
-  start(); // starts the simulation
-});
-
-// Hook up Retry button
-const retryButton = document.getElementById("retryButton") as HTMLButtonElement;
-retryButton.addEventListener("click", () => {
-  returnPlacement(); // enables further interaction
-  // const startPos = levels[currentLevelIndex].ballPosition; // ← позиция уровня
-
-  // Reset the ball position and velocity
-  resetBall(world, ball, currentLevelIndex);
-  // Stop simulation
-  Matter.Runner.stop(runner);
-
-  playButton.disabled = false;
-
-  const winDiv = document.getElementById("winMessage");
-  if (winDiv) winDiv.style.display = "none";
-});
-// Hook up Reset button
-const resetButton = document.getElementById("resetButton") as HTMLButtonElement;
-resetButton.addEventListener("click", () => {
-  resetLevel(currentLevelIndex, world, engine, winGame); // enables further interaction
-  resetPlacement();
-});
-
-// // Initialize with first level
-// let currentLevelIndex = 0;
-// let ball = loadLevel(currentLevelIndex, world, engine, winGame);
-
-let ball: Matter.Body;
-let currentLevelIndex = 0;
-
-// Show current level
-const levelDisplay = document.getElementById("currentLevelDisplay");
-if (levelDisplay) {
-  levelDisplay.textContent = `Уровень: ${currentLevelIndex + 1}`;
-}
-
 // Setup level selection
 document.querySelectorAll("#levelSelect button").forEach((btn) => {
   const levelIndex = parseInt(btn.getAttribute("data-level")!);
@@ -94,7 +45,7 @@ document.querySelectorAll("#levelSelect button").forEach((btn) => {
     gameContainer.style.display = "block";
 
     // Load selected level
-    ball = loadLevel(currentLevelIndex, world, engine, winGame);
+    let { ball, level } = loadLevel(currentLevelIndex, world, engine, winGame);
 
     // Update level display
     const levelDisplay = document.getElementById("currentLevelDisplay");
@@ -102,12 +53,68 @@ document.querySelectorAll("#levelSelect button").forEach((btn) => {
       levelDisplay.textContent = `Уровень: ${currentLevelIndex + 1}`;
     }
 
+    // Setup placement
+    const canvas = render.canvas;
+    const {
+      disablePlacement,
+      returnPlacement,
+      getPlacedObjects,
+      resetPlacement,
+    } = setupPlacement(world, canvas, level.movable);
+
+    // Hook up Play button
+    const playButton = document.getElementById(
+      "playButton"
+    ) as HTMLButtonElement;
+    playButton.addEventListener("click", () => {
+      disablePlacement(); // disables further interaction
+      playButton.disabled = true;
+      start(); // starts the simulation
+    });
+
+    // Hook up Retry button
+    const retryButton = document.getElementById(
+      "retryButton"
+    ) as HTMLButtonElement;
+    retryButton.addEventListener("click", () => {
+      returnPlacement(); // enables further interaction
+      // const startPos = levels[currentLevelIndex].ballPosition; // ← позиция уровня
+
+      // Reset the ball position and velocity
+      resetBall(world, ball, currentLevelIndex);
+      // Stop simulation
+      Matter.Runner.stop(runner);
+
+      playButton.disabled = false;
+
+      const winDiv = document.getElementById("winMessage");
+      if (winDiv) winDiv.style.display = "none";
+    });
+    // Hook up Reset button
+    const resetButton = document.getElementById(
+      "resetButton"
+    ) as HTMLButtonElement;
+    resetButton.addEventListener("click", () => {
+      resetLevel(currentLevelIndex, world, engine, winGame); // enables further interaction
+      resetPlacement();
+    });
+
     // Reset button state
     const winDiv = document.getElementById("winMessage");
     if (winDiv) winDiv.style.display = "none";
     playButton.disabled = false;
   });
 });
+
+let ball: Matter.Body;
+let currentLevelIndex = 0;
+
+// Show current level
+const levelDisplay = document.getElementById("currentLevelDisplay");
+if (levelDisplay) {
+  levelDisplay.textContent = `Уровень: ${currentLevelIndex + 1}`;
+}
+
 document.getElementById("menu-toggle")?.addEventListener("click", () => {
   startScreen.style.display = "flex";
   gameContainer.style.display = "none";

@@ -1,5 +1,5 @@
 // game/loader.ts
-import Matter from "matter-js";
+import Matter, { Mouse, MouseConstraint, Body } from "matter-js";
 import { levels, Level } from "./levels";
 import { createBall } from "./ball";
 
@@ -25,6 +25,7 @@ export function loadLevel(
   const ball = createBall(world, level.ballPosition);
 
   level.obstacles.forEach((o) => Matter.Composite.add(world, o));
+  level.movable.forEach((m) => Matter.Composite.add(world, m));
 
   const goal = Matter.Bodies.rectangle(
     level.goalArea.x,
@@ -63,7 +64,7 @@ export function loadLevel(
     }
   });
 
-  return ball;
+  return { ball, level };
 }
 
 export function resetBall(
