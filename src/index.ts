@@ -14,6 +14,7 @@ import {
   getUnlockedLevel,
   resetBall,
   resetLevel,
+  resetMovable,
 } from "./game/loader";
 
 const gameContainer = document.getElementById("gameContainer")!;
@@ -97,6 +98,7 @@ document.querySelectorAll("#levelSelect button").forEach((btn) => {
     resetButton.addEventListener("click", () => {
       resetLevel(currentLevelIndex, world, engine, winGame); // enables further interaction
       resetPlacement();
+      resetMovable(world, level.movable, currentLevelIndex);
     });
 
     // Reset button state

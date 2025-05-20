@@ -93,3 +93,17 @@ export function resetLevel(
 ) {
   loadLevel(index, world, engine, onWin);
 }
+
+export function resetMovable(
+  world: Matter.World,
+  movableBodies: Matter.Body[],
+  index: number
+) {
+  for (const body of movableBodies) {
+    Matter.World.remove(world, body);
+  }
+
+  const level: Level = levels[index];
+
+  level.movable.forEach((m) => Matter.Composite.add(world, m));
+}
