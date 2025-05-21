@@ -25,6 +25,11 @@ function winGame() {
   if (winDiv) winDiv.style.display = "block";
   Matter.Runner.stop(runner); // optional: stop simulation
 }
+function loseGame() {
+  const loseDiv = document.getElementById("loseMessage");
+  if (loseDiv) loseDiv.style.display = "block";
+  Matter.Runner.stop(runner); // optional: stop simulation
+}
 
 const { Bodies, Composite } = Matter;
 
@@ -46,7 +51,13 @@ document.querySelectorAll("#levelSelect button").forEach((btn) => {
     gameContainer.style.display = "block";
 
     // Load selected level
-    let { ball, level } = loadLevel(currentLevelIndex, world, engine, winGame);
+    let { ball, level } = loadLevel(
+      currentLevelIndex,
+      world,
+      engine,
+      winGame,
+      loseGame
+    );
 
     // Update level display
     const levelDisplay = document.getElementById("currentLevelDisplay");
@@ -90,13 +101,15 @@ document.querySelectorAll("#levelSelect button").forEach((btn) => {
 
       const winDiv = document.getElementById("winMessage");
       if (winDiv) winDiv.style.display = "none";
+      const loseDiv = document.getElementById("loseMessage");
+      if (loseDiv) loseDiv.style.display = "none";
     });
     // Hook up Reset button
     const resetButton = document.getElementById(
       "resetButton"
     ) as HTMLButtonElement;
     resetButton.addEventListener("click", () => {
-      resetLevel(currentLevelIndex, world, engine, winGame); // enables further interaction
+      resetLevel(currentLevelIndex, world, engine, winGame, loseGame); // enables further interaction
       resetPlacement();
       resetMovable(world, level.movable, currentLevelIndex);
     });

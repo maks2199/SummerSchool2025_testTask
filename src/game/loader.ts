@@ -17,7 +17,8 @@ export function loadLevel(
   index: number,
   world: Matter.World,
   engine: Matter.Engine,
-  onWin: () => void
+  onWin: () => void,
+  onLose: () => void
 ) {
   Matter.Composite.clear(world, false);
   const level: Level = levels[index];
@@ -64,6 +65,33 @@ export function loadLevel(
     }
   });
 
+  // Lose conditions
+  const canvasWidth = 800; // adjust to your canvas width
+  const canvasHeight = 600; // adjust to your canvas height
+  let idleTime = 0;
+  const maxIdleTime = 180; // e.g., 3 seconds at 60 fps
+
+  Matter.Events.off(engine, "beforeUpdate");
+  Matter.Events.on(engine, "beforeUpdate", () => {
+    const { x, y } = ball.position;
+
+    // Check if ball is out of bounds
+    if (x < 0 || x > canvasWidth || y < 0 || y > canvasHeight) {
+      onLose();
+    }
+
+    // Check if ball is idle (velocity nearly zero for too long)
+    const speed = Math.sqrt(ball.velocity.x ** 2 + ball.velocity.y ** 2);
+    if (speed < 0.05) {
+      idleTime++;
+      if (idleTime > maxIdleTime) {
+        onLose();
+      }
+    } else {
+      idleTime = 0; // reset if ball is moving
+    }
+  });
+
   return { ball, level };
 }
 
@@ -89,9 +117,10 @@ export function resetLevel(
   index: number,
   world: Matter.World,
   engine: Matter.Engine,
-  onWin: () => void
+  onWin: () => void,
+  onLose: () => void
 ) {
-  loadLevel(index, world, engine, onWin);
+  loadLevel(index, world, engine, onWin, onLose);
 }
 
 export function resetMovable(
