@@ -1,0 +1,6 @@
+services:
+  the-ball:
+    container_name: the-ball
+    image: maks219921/the-ball
+    ports:
+      - "8080:8080"
