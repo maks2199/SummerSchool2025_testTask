@@ -20,6 +20,8 @@ npm run start
 
 после этого запустится веб-сервер по адресу http://localhost:8080/
 
+Демо доступно по ссылке: https://theball.aoai.ru/
+
 ## Библиотеки
 
 Matter.js - physics engine
