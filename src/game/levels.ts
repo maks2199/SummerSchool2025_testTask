@@ -38,11 +38,11 @@ export const levels: Level[] = [
       Bodies.circle(500, 200, 30, { isStatic: true }),
     ],
     movable: [
-      Bodies.rectangle(300, 400, 200, 20, {
+      Bodies.rectangle(200, 200, 200, 20, {
         isStatic: true,
         render: { fillStyle: MOVABLE_COLOUR },
       }),
-      Bodies.circle(500, 200, 30, {
+      Bodies.circle(200, 300, 30, {
         isStatic: true,
         render: { fillStyle: MOVABLE_COLOUR },
       }),

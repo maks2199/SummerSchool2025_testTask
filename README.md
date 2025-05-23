@@ -10,49 +10,23 @@
 - Розовые - размещенные игроком и которые игрок может двигать;
 - Черные - размещенные на уровне и которые игрок не может двигать.
 
-## Installation and run
+## Установка и запуск
+
+Перейти в корень проекта и выполнить команду:
 
 ```shell
 npm run start
 ```
 
-## Libraries
+после этого запустится веб-сервер по адресу http://localhost:8080/
+
+## Библиотеки
 
 Matter.js - physics engine
 
-## Core techniques
+## Используемые технологии
 
 - localStorage - для сохранения прогресса между сессиями браузера;
-
-## Project structure
-
-```shell
-game-project/
-│
-├── public/              # Static files
-│   └── index.html
-│
-├── src/                 # Source code
-│   ├── game/            # Game logic
-│   │   ├── engine.js    # Setup Matter.js
-│   │   ├── ball.js      # Ball entity
-│   │   └── levels.js    # Level definitions
-│   ├── ui/              # Optional UI (React or Vanilla)
-│   └── main.js          # Game entry point
-│
-├── assets/              # Images, sounds
-├── styles/              # CSS or SCSS
-├── package.json
-└── README.md
-```
-
-| Need           | Tool                            |
-| -------------- | ------------------------------- |
-| 2D Physics     | `Matter.js`                     |
-| Rendering      | `Canvas`, `Phaser`, or `PixiJS` |
-| UI             | Vanilla JS or `React`           |
-| Asset Handling | Load via `<img>` / Audio APIs   |
-| Hosting        | `GitHub Pages`, `Vercel`, etc   |
 
 ## Классы
 
@@ -72,9 +46,13 @@ game-project/
 
 ## Разработка
 
-- Как добавить размещаемый объект?
+- Как добавить уровень?\
+  В классе levels.ts добавить ещё один объект в массив, указав:
 
-- Как добавить уровень?
+  - ballPosition - местоположение мяча
+  - obstacles - размеры и положение зафиксированных объектов
+  - movable - размеры и положение передвигаемых объектов
+  - goalArea - размеры и местоположение победной зоны
 
 ## Что улучшить
 
@@ -85,3 +63,7 @@ game-project/
 - Отрефакторить классы, разграничить ответственность. Пока что не совсем понял, как правильно распределить функции между index, loader, и placement, например. В идеале, index ничего не должен знать об игре?
 
 - Хранение уровней вынести в текстовый файл JSON. Добавить режим редактирования уровней, в котором можно создавать и изменять уровни и сохранять их в формате JSON.
+
+- Добавить конфигурационный JSON файл с параметрами игры: основные цвета; время простоя мяча, приводящее к поражению; физические параметры мяча; размеры поля.
+
+- Адаптировать для экрана смартфона.

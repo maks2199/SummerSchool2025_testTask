@@ -37,6 +37,7 @@ module.exports = {
     open: true, // Automatically open the browser
     port: 8080, // Port to run the dev server on
     hot: true, // Enable Hot Module Replacement (optional)
+    allowedHosts: "all",
   },
   plugins: [
     new HtmlWebpackPlugin({
