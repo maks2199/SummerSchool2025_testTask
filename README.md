@@ -1,5 +1,7 @@
 # SummerSchool2025_testTask
 
+![](docs/demo.gif)
+
 # Геймплей
 
 - ЛКМ - поставить/удалить объект;
